@@ -7,6 +7,16 @@ import { publicRouters, TypeRoute } from './routers';
 function App() {
   return (
     <div className="App">
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+      </nav>
       <Routes>
         {publicRouters.map((route: TypeRoute, index: number) => {
           const Page = route.component
