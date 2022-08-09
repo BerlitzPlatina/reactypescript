@@ -3,6 +3,7 @@ interface NameTitle{
   nameTitle: string;
 }
 function Title({nameTitle}: NameTitle) {
+  //xu ly side effect
   useEffect(() => {
     document.title = nameTitle;
   })
