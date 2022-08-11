@@ -1,9 +1,34 @@
-import { Dispatch, SetStateAction } from "react"
+import axios from "axios";
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import Title from "../kit/title"
 interface AddTodoProps { 
   setToken?: Dispatch<SetStateAction<undefined>>
 }
 function Login(props: AddTodoProps) {
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  var info = {
+    userName: username,
+    password: password
+  }
+  const handleSetUserName = (e: React.FormEvent<HTMLInputElement>) => {
+    setUserName(e.currentTarget.value)
+    info.userName = username
+  }
+  const handleSetPassword = (e: React.FormEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value)
+    info.password = password
+  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    axios.post(`http://localhost:8000/api/admin/login`)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+  
   return (
     <div>
       <Title nameTitle={"Login"} />
@@ -19,15 +44,19 @@ function Login(props: AddTodoProps) {
                       <div className="text-center">
                         <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                       </div>
-                      <form className="user">
+                      <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
                           <input type="email" className="form-control form-control-user"
                             id="exampleInputEmail" aria-describedby="emailHelp"
-                            placeholder="Enter Email Address..." />
+                            placeholder="Enter Email Address..." 
+                            onChange={handleSetUserName}
+                          />
                         </div>
                         <div className="form-group">
                           <input type="password" className="form-control form-control-user"
-                            id="exampleInputPassword" placeholder="Password" />
+                            id="exampleInputPassword" placeholder="Password"
+                            onChange={handleSetPassword}
+                          />
                         </div>
                         <div className="form-group">
                           <div className="custom-control custom-checkbox small">
@@ -36,9 +65,9 @@ function Login(props: AddTodoProps) {
                               Me</label>
                           </div>
                         </div>
-                        <a href="index.html" className="btn btn-primary btn-user btn-block">
+                        <button className="btn btn-primary btn-user btn-block" type="submit">
                           Login
-                        </a>
+                        </button>
                         <hr />
                         <a href="index.html" className="btn btn-google btn-user btn-block">
                           <i className="fab fa-google fa-fw"></i> Login with Google
@@ -59,11 +88,8 @@ function Login(props: AddTodoProps) {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </div>
   )
