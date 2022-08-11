@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {Routes, Route, Link} from 'react-router-dom'
 import './App.css';
 import Home from './components/home/home';
@@ -5,6 +6,10 @@ import Login from './components/login/login';
 import { publicRouters, TypeRoute } from './routers';
 
 function App() {
+  const [token, setToken] = useState();
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
   return (
     <div className="App">
       <nav>
