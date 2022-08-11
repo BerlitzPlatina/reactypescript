@@ -8,12 +8,12 @@ function Login(props: AddTodoProps) {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   var info = {
-    userName: username,
+    email: username,
     password: password
   }
   const handleSetUserName = (e: React.FormEvent<HTMLInputElement>) => {
     setUserName(e.currentTarget.value)
-    info.userName = username
+    info.email = username
   }
   const handleSetPassword = (e: React.FormEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value)
@@ -22,7 +22,7 @@ function Login(props: AddTodoProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axios.post(`http://localhost:8000/api/admin/login`)
+    axios.post(`http://localhost:8000/api/admin/login`, info)
       .then(res => {
         console.log(res);
         console.log(res.data);
