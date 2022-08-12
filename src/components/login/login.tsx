@@ -33,7 +33,7 @@ function Login(props: AddTodoProps) {
       .then(res => {
         props.setToken?.(res.data.access_token)
       }) */
-      const response = getDataSummary(info).then(res => {
+      getDataSummary(info).then(res => {
         props.setToken?.(res.data.access_token)
       });      
   }
