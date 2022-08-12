@@ -5,10 +5,16 @@ import Home from './components/home/home';
 import Login from './components/login/login';
 import { publicRouters, TypeRoute } from './routers';
 
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  return tokenString ? JSON.parse(tokenString) : ''
+}
 function App() {
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(getToken());
   if(!token) {
     return <Login setToken={setToken} />
+  } else {
+    sessionStorage.setItem('token', JSON.stringify(token));
   }
   return (
     <div className="App">

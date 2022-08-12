@@ -1,8 +1,15 @@
 import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import request from "../../requests/request";
 import Title from "../kit/title"
 interface AddTodoProps { 
   setToken?: Dispatch<SetStateAction<undefined>>
+}
+function getDataSummary(data: any) {
+  return request(`/admin/login`, {
+    method: "POST",
+    data: data,
+  });
 }
 function Login(props: AddTodoProps) {
   const [username, setUserName] = useState('');
@@ -19,14 +26,16 @@ function Login(props: AddTodoProps) {
     setPassword(e.currentTarget.value)
     info.password = password
   }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axios.post(`http://localhost:8000/api/admin/login`, info)
+    /* axios.post(`http://localhost:8000/api/admin/login`, info)
       .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+        props.setToken?.(res.data.access_token)
+      }) */
+      const response = getDataSummary(info).then(res => {
+        props.setToken?.(res.data.access_token)
+      });      
   }
   
   return (
