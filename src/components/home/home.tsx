@@ -1,18 +1,25 @@
 import Title from "../kit/title"
 import request from "../../requests/request";
 import Article from "../articles/article";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import {Article as IArticle} from "../articles/type"
+import {Paginate} from "../types/type"
 function getArticles() {
   return request(`/articles`, {
     method: "GET",
   });
 }
 const Home: React.FC<{}> = () => {
-  const [articles, setArticles] = useState([1,2,4,5]);
-  getArticles().then(res => {
-    console.log(res);
-  });  
+  const [articles, setArticles] = useState<Paginate<IArticle>>();
+  useEffect((): any => {
+    let mounted = true;
+    getArticles().then(res => {
+        if(mounted) {
+          setArticles(res.data.articleNextLastestNews)
+        }
+      })
+    return () => mounted = false;
+  }, [])
   return (
     <div className="skin-orange">
       <Title nameTitle={"Home"} />
@@ -616,122 +623,19 @@ const Home: React.FC<{}> = () => {
                 <div>Just Another News</div>
               </div>
               <div className="row">
-                <Article/>
-                <article className="col-md-12 article-list">
-                  <div className="inner">
-                    <figure>
-                      <a href="single.html">
-                        <img src="images/news/img11.jpg" alt="Sample Article"/>
-                      </a>
-                    </figure>
-                    <div className="details">
-                      <div className="detail">
-                        <div className="category">
-                          <a href="#">Film</a>
-                        </div>
-                        <div className="time">December 19, 2016</div>
-                      </div>
-                      <h1><a href="single.html">Donec consequat arcu at ultrices sodales quam erat aliquet diam</a></h1>
-                      <p>
-                        Donec consequat, arcu at ultrices sodales, quam erat aliquet diam, sit amet interdum libero nunc accumsan nisi.
-                      </p>
-                      <footer>
-                        <a href="#" className="love"><i className="ion-android-favorite-outline"></i> <div>273</div></a>
-                        <a className="btn btn-primary more" href="single.html">
-                          <div>More</div>
-                          <div><i className="ion-ios-arrow-thin-right"></i></div>
-                        </a>
-                      </footer>
-                    </div>
-                  </div>
-                </article>
-                <article className="col-md-12 article-list">
-                  <div className="inner">
-                    <div className="badge">
-                      Sponsored
-                    </div>
-                    <figure>
-                      <a href="single.html">
-                        <img src="images/news/img02.jpg" alt="Sample Article"/>
-                      </a>
-                    </figure>
-                    <div className="details">
-                      <div className="detail">
-                        <div className="category">
-                          <a href="#">Travel</a>
-                        </div>
-                        <div className="time">December 18, 2016</div>
-                      </div>
-                      <h1><a href="single.html">Maecenas accumsan tortor ut velit pharetra mollis</a></h1>
-                      <p>
-                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui.
-                      </p>
-                      <footer>
-                        <a href="#" className="love"><i className="ion-android-favorite-outline"></i> <div>4209</div></a>
-                        <a className="btn btn-primary more" href="single.html">
-                          <div>More</div>
-                          <div><i className="ion-ios-arrow-thin-right"></i></div>
-                        </a>
-                      </footer>
-                    </div>
-                  </div>
-                </article>
-                <article className="col-md-12 article-list">
-                  <div className="inner">
-                    <figure>
-                      <a href="single.html">
-                        <img src="images/news/img03.jpg" alt="Sample Article"/>
-                      </a>
-                    </figure>
-                    <div className="details">
-                      <div className="detail">
-                        <div className="category">
-                          <a href="#">Travel</a>
-                        </div>
-                        <div className="time">December 16, 2016</div>
-                      </div>
-                      <h1><a href="single.html">Nulla facilisis odio quis gravida vestibulum Proin venenatis pellentesque arcu</a></h1>
-                      <p>
-                        Nulla facilisis odio quis gravida vestibulum. Proin venenatis pellentesque arcu, ut mattis nulla placerat et.
-                      </p>
-                      <footer>
-                        <a href="#" className="love active"><i className="ion-android-favorite"></i> <div>302</div></a>
-                        <a className="btn btn-primary more" href="single.html">
-                          <div>More</div>
-                          <div><i className="ion-ios-arrow-thin-right"></i></div>
-                        </a>
-                      </footer>
-                    </div>
-                  </div>
-                </article>
-                <article className="col-md-12 article-list">
-                  <div className="inner">
-                    <figure>
-                      <a href="single.html">
-                        <img src="images/news/img09.jpg" alt="Sample Article"/>
-                      </a>
-                    </figure>
-                    <div className="details">
-                      <div className="detail">
-                        <div className="category">
-                          <a href="#">Healthy</a>
-                        </div>
-                        <div className="time">December 16, 2016</div>
-                      </div>
-                      <h1><a href="single.html">Maecenas blandit ultricies lorem id tempor enim pulvinar at</a></h1>
-                      <p>
-                        Maecenas blandit ultricies lorem, id tempor enim pulvinar at. Curabitur sit amet tortor eu ipsum lacinia malesuada.
-                      </p>
-                      <footer>
-                        <a href="#" className="love"><i className="ion-android-favorite-outline"></i> <div>783</div></a>
-                        <a className="btn btn-primary more" href="single.html">
-                          <div>More</div>
-                          <div><i className="ion-ios-arrow-thin-right"></i></div>
-                        </a>
-                      </footer>
-                    </div>
-                  </div>
-                </article>
+                {articles?.data.map((article, index) => {
+                  return <Article 
+                    key={index} 
+                    countClick={article.countClick} 
+                    countLike={article.countLike}
+                    createdAt={article.createdAt}
+                    description={article.description}
+                    homepage={article.homepage}
+                    link={article.link}
+                    img={article.img}
+                    title={article.title}
+                  />
+                })}
               </div>
             </div>
             <div className="col-xs-6 col-md-4 sidebar" id="sidebar">

@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import {Article as IArticle} from "../articles/type" 
 interface NameTitle {
 	nameTitle: string;
 }
-function Article() {
+function Article(article: IArticle) {
 	//xu ly side effect
 	return (
 		<div>
@@ -10,7 +11,7 @@ function Article() {
 				<div className="inner">
 					<figure>
 						<a href="single.html">
-							<img src="https://i1-vnexpress.vnecdn.net/2022/08/15/20modernstrippersuperjumbo-166-3493-3482-1660525418.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=kbpfWO8VDMsO_VOw3H7_bw" alt="Sample Article" />
+							<img src={article.img} alt="Sample Article" />
 						</a>
 					</figure>
 					<div className="details">
@@ -20,7 +21,7 @@ function Article() {
 							</div>
 							<div className="time">December 19, 2016</div>
 						</div>
-						<h1><a href="single.html">Làm sao để quên người cũ khi không muốn cắt đứt liên lạc</a></h1>
+						<h1><a href="single.html">{article.title}</a></h1>
 						<footer>
 							<a href="#" className="love"><i className="ion-android-favorite-outline"></i> <div>273</div></a>
 							<a className="btn btn-primary more" href="single.html">
