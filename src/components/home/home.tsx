@@ -624,16 +624,9 @@ const Home: React.FC<{}> = () => {
               </div>
               <div className="row">
                 {articles?.data.map((article, index) => {
-                  return <Article 
-                    key={index} 
-                    countClick={article.countClick} 
-                    countLike={article.countLike}
-                    createdAt={article.createdAt}
-                    description={article.description}
-                    homepage={article.homepage}
-                    link={article.link}
-                    img={article.img}
-                    title={article.title}
+                  return <Article
+                    key={index}
+                    article={article}
                   />
                 })}
               </div>

@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
-import {Article as IArticle} from "../articles/type" 
+import { Article as IArticle } from "../articles/type"
 interface NameTitle {
 	nameTitle: string;
 }
-function Article(article: IArticle) {
+interface IntrinsicElements {
+	article: IArticle;
+}
+function Article({ article }: IntrinsicElements) {
 	//xu ly side effect
 	return (
 		<div>
