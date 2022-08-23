@@ -4,10 +4,11 @@ import { getPageQuery } from './untils';
 export function getAuthority(str?: string) {
   const authorityString =
     typeof str === 'undefined' && localStorage
-      ? localStorage.getItem('access-token')
+      ? sessionStorage.getItem('token')
       : str; // authorityString could be admin, "admin", ["admin"]
   let authority;
-
+  console.log(authorityString);
+  
   try {
     if (authorityString) {
       authority = JSON.parse(authorityString);
