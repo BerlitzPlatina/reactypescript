@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {Routes, Route, Link} from 'react-router-dom'
 import './App.css';
 import Home from './components/home/home';
 import Login from './components/login/login';
 import { publicRouters, TypeRoute } from './routers';
 
+export type ICheckLogin = {
+  isLogin: boolean
+}
+export const CheckLogin = React.createContext<ICheckLogin>({
+  isLogin: true,
+})
 function getToken() {
   const tokenString = sessionStorage.getItem('token');
   return tokenString ? JSON.parse(tokenString) : ''
