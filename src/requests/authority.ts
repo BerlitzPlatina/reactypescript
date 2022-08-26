@@ -28,7 +28,7 @@ export function removeAuthority() {
   const navigate = useNavigate();
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  localStorage.removeItem('access-token');
+  localStorage.removeItem('token');
 
   const { redirect } = getPageQuery();
 
